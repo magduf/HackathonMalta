@@ -1,14 +1,17 @@
 version: "2.1"
 
-services: 
+services:
   voicegame_v1:
     # image: alexstep/voicegame_v1
     build: ./
     labels:
       - "dapp in dao casino protocol"
-    entrypoint: 
-      ["sh", "./entrypoint.sh"]
+    ports:
+      - 8888:7777
     environment:
       - serverPort=7777
       - playerPrivateKey=0x9957197e15d3973c04a0c2287e43b9519b0e33cdebf443dd63bed78635957f61
       - bankrollerPrivateKey=0x99a9681faf8e1e178902fe911fb7ba8df7a77539246cf5d76c0012324cd8a175
+      - PLATFORM_ID=mysuperplatformid
+    entrypoint:
+      ["sh", "./entrypoint.sh"]

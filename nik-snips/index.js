@@ -2,6 +2,10 @@ const OS = require('os')
 const http = require('http')
 const DCWebapi = require('dc-webapi').default
 
+// const platformId = OS.hostname()
+const platformId = '5f273ea6758b'
+// const platformId = 'mysuperplatformid'
+
 const dappManifest = require('./mydappconf/dapp.manifest.js')
 const dappLogic = require('./mydappconf/dapp.logic.js')
 
@@ -15,7 +19,7 @@ const walletPass = 1234
 const Dapp = new class myDapp {
   async init (callback) {
     const webapi = await new DCWebapi({
-      platformId: OS.hostname(),
+      platformId: platformId,
       blockchainNetwork: 'ropsten'
     }).start()
 
@@ -28,9 +32,9 @@ const Dapp = new class myDapp {
       gameLogicFunction: dappLogic
     })
 
-    this.game.on('webapi::status', data => {
-      console.log('webapi::status', data)
-    })
+    // this.game.on('webapi::status', data => {
+    //   console.log('webapi::status', data)
+    // })
   }
 
   async startGame (deposit = 10) {
@@ -75,11 +79,11 @@ const Dapp = new class myDapp {
  */
 const test = async function () {
   console.log(`
-  
-    Init DApp 
-  
+
+    Init DApp
+
     ฅ^•ﻌ•^ฅ
-  
+
 
   `)
   // Init dapp with logic and manifest
@@ -106,6 +110,7 @@ const test = async function () {
 
   `)
   let userBet = 1
+  // debugger
   const res1 = await Dapp.play(userBet, 1)
   console.log('Play 1 ', res1); console.log('\n\n\n')
 
@@ -146,4 +151,3 @@ if (process.env.NODE_ENV === 'test') {
     console.info('TEST IS OK')
   })
 }
-

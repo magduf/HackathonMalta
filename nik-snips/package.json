@@ -6,7 +6,7 @@
   "scripts": {
     "postinstall": "sh postinstall.sh",
     "start-bankroller": "bankroller-core start -r 0x99a9681faf8e1e178902fe911fb7ba8df7a77539246cf5d76c0012324cd8a175",
-    "start-gameserver": "node index.js",
+    "start-gameserver": "node --inspect index.js",
     "start": "concurrently \"npm:start-*\"",
     "docker-up": "docker-compose up",
     "test": "eslint --ext=.js ./"

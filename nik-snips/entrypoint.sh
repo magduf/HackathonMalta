@@ -8,5 +8,6 @@ echo "Start bankroller with privkey: $privkey"
 echo ""
 echo ""
 echo ""
+bankroller-core start -r $privkey
 
-node_modules/.bin/concurrently "node_modules/.bin/bankroller-core start -r $privkey" "npm run start-gameserver"
+#node_modules/.bin/concurrently "node_modules/.bin/bankroller-core start -r $privkey" "npm run start-gameserver"
