@@ -1,9 +1,9 @@
 pragma solidity ^0.4.23;
 
-import 'openzeppelin-solidity/contracts/token/ERC721/ERC721.sol';
 
+import "openzeppelin-solidity/contracts/token/ERC721/ERC721Token.sol";
 
-contract Quiz is ERC721 {
+contract Quiz is ERC721Token {
     //An ERC-721 implemention of a Quiz that pays out real money to players.
 
     uint idCounter = 1;
@@ -25,19 +25,17 @@ contract Quiz is ERC721 {
         _mint(msg.sender, idCounter);
         pots[idCounter] = msg.value;
         prizes[idCounter] = _prize; //pay out a finite prize for each participant. TODO implement pot splitting.
-        QuizCreated(idCounter);
+        emit QuizCreated(idCounter);
         idCounter = idCounter + 1;
     }
 
 
-    function depositToGateway(address gatewayAddress, uint256 tokenID) public {
-        safeTransferFrom(msg.sender, gatewayAddress, tokenID);
-    }
+ 
 
     function postQuestion(uint tokenID, uint8 questionNumber, string question, bytes32 encryptedAnswer) {    
         require(msg.sender == ownerOf(tokenID));
         encryptedAnswers[tokenID][questionNumber] = encryptedAnswer;
-        QuestionPosted(tokenID, questionNumber, question);
+        emit QuestionPosted(tokenID, questionNumber, question);
 
     }
 
@@ -49,12 +47,12 @@ contract Quiz is ERC721 {
         require(scorecards[tokenID][msg.sender][questionNumber] == 0);
         if (keccak256(guess) == encryptedAnswers[tokenID][questionNumber]) {
             scorecards[tokenID][msg.sender][questionNumber] = 1;
-            RightAnswer(msg.sender, tokenID, questionNumber);
+            emit RightAnswer(msg.sender, tokenID, questionNumber);
         }
 
         else {
             scorecards[tokenID][msg.sender][questionNumber] = 2;
-            WrongAnswer(msg.sender, tokenID, questionNumber);
+            emit WrongAnswer(msg.sender, tokenID, questionNumber);
         }
 
     }
@@ -63,7 +61,7 @@ contract Quiz is ERC721 {
     function postAnswer(uint tokenID, uint8 questionNumber, string answer) {
       require(msg.sender == ownerOf(tokenID));
       require(keccak256(answer) == encryptedAnswers[tokenID][questionNumber]);
-      AnswerPosted(tokenID, questionNumber, answer);
+      emit AnswerPosted(tokenID, questionNumber, answer);
     }
 
     event WINNER(address player, uint payout);
@@ -73,13 +71,14 @@ contract Quiz is ERC721 {
             require(scorecards[tokenID][msg.sender][question] == 1);
         }
         require(totalsPaidOut[tokenID] + prizes[tokenID] <= pots[tokenID]);
-        WINNER(msg.sender, prizes[tokenID]);
+        emit WINNER(msg.sender, prizes[tokenID]);
         msg.sender.transfer(prizes[tokenID]);
     }
 
 
+    // Convenience function to get around crappy function overload limitations in Web3
     function depositToGateway(address _gateway, uint256 _uid) public {
-      safeTransferFrom(msg.)
+        safeTransferFrom(msg.sender, _gateway, _uid);
     }
 
 
