@@ -1,0 +1,427 @@
+{
+  "contractName": "ERC20Receiver",
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "onERC20Received",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bytes4"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "pragma solidity ^0.4.24;\n\n/**\n * @title ERC20 token receiver interface\n * @dev Interface for any contract that wants to support safeTransfers\n *  from ERC20 asset contracts.\n */\ncontract ERC20Receiver {\n  /**\n   * @dev Magic value to be returned upon successful reception of an NFT\n   *  Equals to `bytes4(keccak256(\"onERC20Received(address,uint256,bytes)\"))`,\n   *  which can be also obtained as `ERC20Receiver(0).onERC20Received.selector`\n   */\n  bytes4 constant ERC20_RECEIVED = 0xbc04f0af;\n\n  function onERC20Received(address _from, uint256 amount) public returns(bytes4);\n}\n",
+  "sourcePath": "/home/magnus/Documents/hackathon/truffle-dappchain-example/gateway-tutorial/contracts/ERC20Receiver.sol",
+  "ast": {
+    "absolutePath": "/home/magnus/Documents/hackathon/truffle-dappchain-example/gateway-tutorial/contracts/ERC20Receiver.sol",
+    "exportedSymbols": {
+      "ERC20Receiver": [
+        14
+      ]
+    },
+    "id": 15,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ERC20 token receiver interface\n@dev Interface for any contract that wants to support safeTransfers\n from ERC20 asset contracts.",
+        "fullyImplemented": false,
+        "id": 14,
+        "linearizedBaseContracts": [
+          14
+        ],
+        "name": "ERC20Receiver",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 4,
+            "name": "ERC20_RECEIVED",
+            "nodeType": "VariableDeclaration",
+            "scope": 14,
+            "src": "449:43:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 2,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "449:6:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30786263303466306166",
+              "id": 3,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "482:10:0",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_3154440367_by_1",
+                "typeString": "int_const 3154440367"
+              },
+              "value": "0xbc04f0af"
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 13,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "onERC20Received",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "522:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "522:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "537:14:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "537:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "521:31:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 12,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "568:6:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 10,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "568:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "567:8:0"
+            },
+            "scope": 14,
+            "src": "497:79:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 15,
+        "src": "178:400:0"
+      }
+    ],
+    "src": "0:579:0"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/magnus/Documents/hackathon/truffle-dappchain-example/gateway-tutorial/contracts/ERC20Receiver.sol",
+    "exportedSymbols": {
+      "ERC20Receiver": [
+        14
+      ]
+    },
+    "id": 15,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:0"
+      },
+      {
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": "@title ERC20 token receiver interface\n@dev Interface for any contract that wants to support safeTransfers\n from ERC20 asset contracts.",
+        "fullyImplemented": false,
+        "id": 14,
+        "linearizedBaseContracts": [
+          14
+        ],
+        "name": "ERC20Receiver",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 4,
+            "name": "ERC20_RECEIVED",
+            "nodeType": "VariableDeclaration",
+            "scope": 14,
+            "src": "449:43:0",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes4",
+              "typeString": "bytes4"
+            },
+            "typeName": {
+              "id": 2,
+              "name": "bytes4",
+              "nodeType": "ElementaryTypeName",
+              "src": "449:6:0",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes4",
+                "typeString": "bytes4"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30786263303466306166",
+              "id": 3,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "482:10:0",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_3154440367_by_1",
+                "typeString": "int_const 3154440367"
+              },
+              "value": "0xbc04f0af"
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 13,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "onERC20Received",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 6,
+                  "name": "_from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "522:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 5,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "522:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 8,
+                  "name": "amount",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "537:14:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 7,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "537:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "521:31:0"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 12,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 11,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13,
+                  "src": "568:6:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes4",
+                    "typeString": "bytes4"
+                  },
+                  "typeName": {
+                    "id": 10,
+                    "name": "bytes4",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "568:6:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes4",
+                      "typeString": "bytes4"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "567:8:0"
+            },
+            "scope": 14,
+            "src": "497:79:0",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 15,
+        "src": "178:400:0"
+      }
+    ],
+    "src": "0:579:0"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-11-01T11:18:54.433Z"
+}
