@@ -3,6 +3,7 @@ var HOST = '10.51.0.56';
 
 var quizId = 0;
 var quizQuestionIndex = 0;
+var dice = false;
 
 
 /**
@@ -73,6 +74,32 @@ function quizEnd(parsedMessage) {
 	client.publish('hermes/tts/sayFinished');
 }
 
+async function diceStart(parsedMessage) {
+	dice = true;
+	var text = "Starting the game, please wait";
+	var payload = JSON.stringify({'text': text, 'siteId': 'default', 'sessionId': parsedMessage.sessionId});
+	client.publish('hermes/tts/say', payload);
+	client.publish('hermes/tts/sayFinished');
+	await sleep();
+	var text = "The game is ready, tell your number";
+	console.log(text);
+	var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"], 'sessionId': parsedMessage.sessionId});
+	client.publish('hermes/dialogueManager/continueSession', payload);
+}
+
+async function dicePlay(parsedMessage) {
+	var text = "dice play";
+	var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"], 'sessionId': parsedMessage.sessionId});
+	client.publish('hermes/dialogueManager/continueSession', payload);
+}
+
+async function diceEnd(parsedMessage) {
+	dice = false;
+	var text = "Finishing the game";
+	var payload = JSON.stringify({'text': text, 'siteId': 'default', 'sessionId': parsedMessage.sessionId});
+	client.publish('hermes/tts/say', payload);
+	client.publish('hermes/tts/sayFinished');
+}
 
 var client  = mqtt.connect('mqtt://' + HOST, { port: 1883 });
 
@@ -94,8 +121,12 @@ client.on('message', function (topic, message) {
 	if (topic == 'hermes/intent/quizbox:StartQuiz') {
 		quizStart(JSON.parse(message));
 	}
+	if (topic == 'hermes/intent/quizbox:StartDice') {
+		diceStart(JSON.parse(message)).then((result) => {console.log(result);});
+	}
 	if (topic == 'hermes/intent/quizbox:Number') {
 		if(quizId != 0) quizProcessAnswer(JSON.parse(message));
+		else if(dice) dicePlay(JSON.parse(message)).then((result) => {console.log(result);});
 		else client.publish('hermes/tts/sayFinished');
 	}
 	if (topic == 'hermes/intent/quizbox:Ordinal') {
@@ -110,5 +141,16 @@ client.on('message', function (topic, message) {
 		if(quizId != 0) quizEnd(JSON.parse(message));
 		else client.publish('hermes/tts/sayFinished');
 	}
+	if (topic == 'hermes/intent/quizbox:EndDice') {
+		diceEnd(JSON.parse(message)).then((result) => {console.log(result);});
+	}
 
 });
+
+function sleep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+  }, 10000);
+  });
+}
