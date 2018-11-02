@@ -4,17 +4,17 @@ function encrypt(data){
 
 
 
-const Q1 = "Dao casino is best suited for developing which of the following?  1. Monopoly, 2. Dice, 3. Hangman, or 4. Clue"
-const Q2 = "To create rapid and exciting experiences Dao uses which of the following? 1. multiple subchaining, 2. centralized server, 3. blocks only for start and stop records, or 4. gatekeeper to local subchain."
-const Q3 = "What is the depth of the ocean?"
-const Q4 = "What keeps you up at night?"
-const Q5 = "What do you live for?"
+const Q1 = "Dao casino is best suited for developing which of the following  1 Monopoly 2 Dice 3 Hangman or 4 Clue"
+const Q2 = "To create rapid and exciting experiences Dao uses which of the following 1 multiple subchaining 2 centralized server 3 blocks only for start and stop records or 4 gatekeeper to local subchain"
+const Q3 = "In case of dispute failure to provide evidence during the temporary window (n blocks) results in 1 escalation to off-chain dispute resolution 2 game end in favor of bank roller 3 game end in favor of player 4 game end in favor of deceived party"
+const Q4 = "DAO stands for 1 developers affiliates casino operators 2 distributed-agreement-oracle 3 direct-affiliate-online gaming 4 Russian Da(Yes!)-Online."
+const Q5 = "Dao.Casino General Game Session Life-Cycle selects the available bankroller 1 with the largest balance 2 with first response 3 based on queue 4 hardcoded into configuration"
 
 const A1 = "2"
 const A2 = "1"
-const A3 = "depends which ocean"
-const A4 = "whatevers cheapest"
-const A5 = "a shot at petting the fancy horses"
+const A3 = "4"
+const A4 = "1"
+const A5 = "1"
 
 console.log("Creating Quiz.")
 
@@ -50,6 +50,7 @@ module.exports = function(callback) {
 	    quizID = JSON.stringify(response.logs[0].args.tokenId.toNumber())
       console.log("Deploying DAO.CASINO developer knowledge quiz.")
       console.log("Test your knowledge of the DAO.CASINO SDK and win 1 ETH!")
+      console.log("Quiz Token ID is " + quizID)
 
 
       async function publishQuestion(quizID, questionNumber, question, answer) {
