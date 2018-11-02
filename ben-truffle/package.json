@@ -13,7 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^6.1.0",
     "js-sha3": "^0.8.0",
-    "openzeppelin-solidity": "2.0.0"
+    "loom-js": "^1.30.2",
+    "loom-truffle-provider": "^0.8.0",
+    "openzeppelin-solidity": "2.0.0",
+    "truffle-contract": "^3.0.6",
+    "truffle-hdwallet-provider": "0.0.6"
   }
 }
