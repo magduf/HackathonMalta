@@ -90,9 +90,11 @@ module.exports = function(callback) {
         });
       };
     
-
-    const quizsubmitAnswer = function(quizId, quizQuestionIndex, answer) {
+/*
+    const quizSubmitAnswer = function(quizId, quizQuestionIndex, answer) {
         return new Promise(async function(resolve, reject) {
+       //   watchQuestions = QUIZ.QuestionPosted({},{fromBlock: 0, toBlock: 'latest'}).watch(async function(error, result) {
+         
             response = await QUIZ.submitGuess(quizId, quizQuestionIndex, answer, {from: playerAccount});
             if (response.logs[0].event == "RightAnswer") {
               console.log("That's right.");
@@ -102,13 +104,17 @@ module.exports = function(callback) {
               console.log("That's wrong.");
               resolve(false);
             }
+          });
 
-        });
+    //    });
       };
+
+      */
 
 
 		async function quizSubmitAnswer(quizId, quizQuestionIndex, answer) {    
-            response = await QUIZ.submitGuess(quizId, quizQuestionIndex, answer, {from: playerAccount});
+            response = await QUIZ.submitGuess(quizId, quizQuestionIndex + 1, answer, {from: playerAccount});
+            console.log(JSON.stringify(response))
             if (response.logs[0].event == "RightAnswer") {
             	console.log("That's right.");
             	return true;
@@ -134,17 +140,20 @@ module.exports = function(callback) {
 		}
 
 
-		async function quizEndTransaction(quizId) {
-            response = await QUIZ.payMe(quizId, {from: playerAddress})
-            if (response.logs[0].event == "WINNER") {
-            	console.log("YOU WON.");
-            	return true;
-            }
-            else {
-            	console.log("You didn't win.");
-            	return false;
-            }
- 		}
+    /**
+     * @return boolean wheter the user won or not
+     */
+    async function quizEndTransaction(quizId) {
+          response = await QUIZ.payMe(quizId, {from: playerAccount})
+          if (response.logs[0].event == "WINNER") {
+              console.log("YOU WON.");
+              return true;
+          }
+          else {
+              console.log("You didn't win.");
+              return false;
+          }
+    }
 
 
 
@@ -154,8 +163,6 @@ module.exports = function(callback) {
 
         rl.question("Press enter to publish the first prewritten question...", async (response) => {
           await publishQuestion(quizID, 1, Q1, A1);
-          response = quizSubmitAnswer(quizID, 0, "blue")   
-          console.log(response)
           rl.question("Press enter to publish the answer to the first question...", async (response) => {
             await publishAnswer(quizID, 1, A1);
 	        rl.question("Press enter to publish the second prewritten question...", async (response) => {
@@ -174,6 +181,8 @@ module.exports = function(callback) {
 			   	          await publishQuestion(quizID, 5, Q5, A5);      
 		     	            rl.question("Press enter to publish the fifth prewritten answer...", async (response) => {
 			   	            await publishAnswer(quizID, 5, A5);
+                                response = await quizEndTransaction(quizID)   
+          console.log(response)
 			   	            rl.close()
 	            		  });
 	            	    });
