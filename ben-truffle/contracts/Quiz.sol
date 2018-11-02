@@ -19,7 +19,7 @@ contract Quiz is ERC721 {
     event QuestionPosted(uint tokenID, uint8 questionNumber, string question);
     event AnswerPosted(uint tokenID, uint8 questionNumber, string answer);
     event RightAnswer(address player, uint tokenID, uint questionNumber);
-    event WrongAnswer(address player, uint tokenID, uint questionNumber);    
+    event WrongAnswer(address player, uint tokenID, uint questionNumber);
     event WINNER(address player, uint payout);
 
     function createQuiz (uint _prize) payable {
@@ -31,7 +31,7 @@ contract Quiz is ERC721 {
     }
 
 
-    function postQuestion(uint tokenID, uint8 questionNumber, string question, bytes32 encryptedAnswer) {    
+    function postQuestion(uint tokenID, uint8 questionNumber, string question, bytes32 encryptedAnswer) {
         require(msg.sender == ownerOf(tokenID));
         encryptedAnswers[tokenID][questionNumber] = encryptedAnswer;
         emit QuestionPosted(tokenID, questionNumber, question);
@@ -39,7 +39,7 @@ contract Quiz is ERC721 {
     }
 
 
-    function submitGuess(uint tokenID, uint8 questionNumber, string guess) returns (bool){
+    function submitGuess(uint tokenID, uint8 questionNumber, string guess) {
         //TODO implement protection for users to stop them from submitting if there are already more players than the pot can support.
         require(scorecards[tokenID][msg.sender][questionNumber] == 0);
         if (keccak256(guess) == encryptedAnswers[tokenID][questionNumber]) {

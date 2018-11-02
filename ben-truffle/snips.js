@@ -58,18 +58,18 @@ module.exports = function(callback) {
 		 * @return boolean whether the answer is correct or not
 		 */
 		async function quizSubmitAnswer(quizId, quizQuestionIndex, answer) {
-			console.log("quizSubmitAnswer111 ",quizId, quizQuestionIndex+1, answer);
-            response = QUIZ.submitGuess(quizId, quizQuestionIndex + 1, ""+answer, {from: playerAccount}).then((result) => {console.log("============",result);});
-	  // });;
-      //       console.log(JSON.stringify(response))
-      //       if (response.logs[0].event == "RightAnswer") {
-      //       	console.log("That's right.");
-      //       	return true;
-      //       }
-      //       if (response.logs[0].event == "WrongAnswer") {
-      //       	console.log("That's wrong.");
-      //       	return false;
-      //       }
+			console.log("quizSubmitAnswer ",quizId, quizQuestionIndex, answer);
+            // response = await QUIZ.submitGuess(quizId, quizQuestionIndex + 1, ""+answer, {from: playerAccount});
+            // console.log(JSON.stringify(response))
+            // if (response.logs[0].event == "RightAnswer") {
+            // 	console.log("That's right.");
+            // 	return true;
+            // }
+            // if (response.logs[0].event == "WrongAnswer") {
+            // 	console.log("That's wrong.");
+            // 	return false;
+            // }
+			return true;
 		}
 
 
@@ -103,10 +103,12 @@ module.exports = function(callback) {
 		async function quizProcessAnswer(parsedMessage) {
 			var answer = parsedMessage.slots[0].value.value;
 			var correct = await quizSubmitAnswer(quizId, quizQuestionIndex, answer);
+
 			var text = "Your ansfer is: "+answer +". Your answer is "+(correct?"correct. ":"not correct. ");
+			console.log(text);
 			quizQuestionIndex++;
 			var question = await quizGetQuestion(quizId, quizQuestionIndex);
-			if(question) {
+			if(question && quizQuestionIndex == 1) {
 				text += "The next question is "+ question;
 				var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:Letter", "quizbox:EndQuiz"], 'sessionId': parsedMessage.sessionId});
 				client.publish('hermes/dialogueManager/continueSession', payload);
@@ -150,7 +152,6 @@ module.exports = function(callback) {
 			console.log("Message: " + message);
 			if (topic == 'hermes/intent/quizbox:StartQuiz') {
 				quizStart(JSON.parse(message));
-				quizSubmitAnswer(quizId, quizQuestionIndex, 2);
 			}
 			if (topic == 'hermes/intent/quizbox:Number') {
 				if(quizId != 0) quizProcessAnswer(JSON.parse(message));
