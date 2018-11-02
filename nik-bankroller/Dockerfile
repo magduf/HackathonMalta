@@ -5,9 +5,9 @@ RUN apk add --no-cache make gcc g++ python git bash
 
 COPY ./ /dapp_server
 WORKDIR /dapp_server
-# RUN rm -rf node_modules && rm package-lock.json
+#RUN rm -rf node_modules && rm package-lock.json && rm yarn.lock
 RUN yarn --production --ignore-engines --ignore-optional --ignore-platform --link-duplicates
 
 ENV PATH="./node_modules/.bin:${PATH}"
 
-ENTRYPOINT ["yarn","start"] 
+ENTRYPOINT ["yarn","start"]

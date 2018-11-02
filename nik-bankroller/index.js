@@ -3,7 +3,7 @@ const http = require('http')
 const DCWebapi = require('dc-webapi').default
 
 // const platformId = OS.hostname()
-const platformId = '5f273ea6758b'
+const platformId = 'd663099e4cc6'
 // const platformId = 'mysuperplatformid'
 
 const dappManifest = require('./mydappconf/dapp.manifest.js')
@@ -131,23 +131,23 @@ const test = async function () {
   const end = await Dapp.endGame(userBet * 0.5, 3)
   console.log('end game result:', end)
 }
-
-console.log(`
-
-  Start game api server  at localhost:${serverPort}
-  try to open http://localhost:${serverPort}/test to run test
-
-`)
-const server = http.createServer((request, response) => {
-  if (request.url.indexOf('test') > -1) {
-    test()
-    response.end('Test runned, see server logs )))')
-  }
-})
-server.listen(serverPort)
-
-if (process.env.NODE_ENV === 'test') {
-  server.close(() => {
-    console.info('TEST IS OK')
-  })
-}
+test()
+// console.log(`
+//
+//   Start game api server  at localhost:${serverPort}
+//   try to open http://localhost:${serverPort}/test to run test
+//
+// `)
+// const server = http.createServer((request, response) => {
+//   if (request.url.indexOf('test') > -1) {
+//     test()
+//     response.end('Test runned, see server logs )))')
+//   }
+// })
+// server.listen(serverPort)
+//
+// if (process.env.NODE_ENV === 'test') {
+//   server.close(() => {
+//     console.info('TEST IS OK')
+//   })
+// }
