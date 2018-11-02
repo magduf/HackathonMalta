@@ -2,14 +2,16 @@ function encrypt(data){
 	return "0x" + keccak256(data)
 }
 
-const Q1 = "What color is the sky?"
-const Q2 = "How big is the moon?"
+
+
+const Q1 = "Dao casino is best suited for developing which of the following?  1. Monopoly, 2. Dice, 3. Hangman, or 4. Clue"
+const Q2 = "To create rapid and exciting experiences Dao uses which of the following? 1. multiple subchaining, 2. centralized server, 3. blocks only for start and stop records, or 4. gatekeeper to local subchain."
 const Q3 = "What is the depth of the ocean?"
 const Q4 = "What keeps you up at night?"
 const Q5 = "What do you live for?"
 
-const A1 = "blue"
-const A2 = "pretty big"
+const A1 = "2"
+const A2 = "1"
 const A3 = "depends which ocean"
 const A4 = "whatevers cheapest"
 const A5 = "a shot at petting the fancy horses"
@@ -67,8 +69,24 @@ module.exports = function(callback) {
 			  output: process.stdout
 	   	});
 
+
+    const quizGetQuestion = function(quizId, quizQuestionIndex) {
+        return new Promise(function(resolve, reject) {
+            watchQuestions = QUIZ.QuestionPosted({},{fromBlock: 0, toBlock: 'latest'}).watch(async function(error, result) {
+  
+                if (((String(result.args.tokenID) == String(quizId)) && (String(result.args.questionNumber) == String(quizQuestionIndex + 1)))) {
+                    console.log("Quizmaster has published question #" + (quizQuestionIndex + 1))
+                    console.log(result.args.question)
+                    resolve(result.args.question)
+                }
+          });        
+        });
+      };
+
       rl.question("Press enter to publish the first prewritten question...", async (response) => {
         await publishQuestion(quizID, 1, Q1, A1);
+        response = await quizGetQuestion(quizID, 0)
+        console.log(response)
         rl.question("Press enter to publish the answer to the first question...", async (response) => {
             await publishAnswer(quizID, 1, A1);
             rl.question("Press enter to publish the second prewritten question...", async (response) => {
