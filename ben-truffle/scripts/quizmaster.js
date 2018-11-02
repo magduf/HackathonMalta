@@ -53,6 +53,20 @@ module.exports = function(callback) {
       console.log("Quiz Token ID is " + quizID)
 
 
+    async function quizSubmitAnswer(quizId, quizQuestionIndex, answer) {
+      console.log("quizSubmitAnswer ",quizId, quizQuestionIndex, answer);
+            response = await QUIZ.submitGuess(quizId, quizQuestionIndex + 1, ""+answer, {from: quizmasterAddress});
+            console.log(JSON.stringify(response))
+            if (response.logs[0].event == "RightAnswer") {
+              console.log("That's right.");
+              return true;
+            }
+            if (response.logs[0].event == "WrongAnswer") {
+              console.log("That's wrong.");
+              return false;
+            }
+    }
+
       async function publishQuestion(quizID, questionNumber, question, answer) {
           console.log("Publishing Question " + questionNumber + ".")
         	response = await QUIZ.postQuestion(quizID, questionNumber, question, encrypt(answer), {from: quizmasterAddress})
@@ -86,23 +100,21 @@ module.exports = function(callback) {
 
       rl.question("Press enter to publish the first prewritten question...", async (response) => {
         await publishQuestion(quizID, 1, Q1, A1);
-        response = await quizGetQuestion(quizID, 0)
-        console.log(response)
-        rl.question("Press enter to publish the answer to the first question...", async (response) => {
-            await publishAnswer(quizID, 1, A1);
+        rl.question("Press enter to publish the answer to the first answer...", async (response) => {
+            await publishAnswer(quizID, 1, A2);
             rl.question("Press enter to publish the second prewritten question...", async (response) => {
 	            await publishQuestion(quizID, 2, Q2, A2);
 		            rl.question("Press enter to publish the second prewritten answer...", async (response) => {
 		  	          await publishAnswer(quizID, 2, A2);
-	     	            rl.question("Press enter to publish the third prewritten answer...", async (response) => {
+	     	            rl.question("Press enter to publish the third prewritten question...", async (response) => {
 		   	              await publishQuestion(quizID, 3, Q3, A3);
             		     	  rl.question("Press enter to publish the third prewritten answer...", async (response) => {
               			   	  await publishAnswer(quizID, 3, A3);
-              		     	  rl.question("Press enter to publish the forth prewritten answer...", async (response) => {
+              		     	  rl.question("Press enter to publish the forth prewritten question...", async (response) => {
               			   	    await publishQuestion(quizID, 4, Q4, A4);
               		          rl.question("Press enter to publish the forth prewritten answer...", async (response) => {
               				        await publishAnswer(quizID, 4, A4);
-              		   	        rl.question("Press enter to publish the fifth prewritten answer...", async (response) => {
+              		   	        rl.question("Press enter to publish the fifth prewritten question...", async (response) => {
               		   	          await publishQuestion(quizID, 5, Q5, A5);      
               	     	          rl.question("Press enter to publish the fifth prewritten answer...", async (response) => {
             			   	            await publishAnswer(quizID, 5, A5);
