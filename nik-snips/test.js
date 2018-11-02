@@ -7,7 +7,7 @@ const http = require('http')
 const DCWebapi = require('dc-webapi').default
 
 // const platformId = OS.hostname()
-const platformId = 'f355dff16f6e'
+const platformId = 'd663099e4cc6'
 // const platformId = 'mysuperplatformid'
 
 const dappManifest = require('./mydappconf/dapp.manifest.js')
@@ -155,7 +155,7 @@ async function diceStart(parsedMessage) {
 	var text = "Starting the game, please wait";
 	var payload = JSON.stringify({'text': text, 'siteId': 'default', 'sessionId': parsedMessage.sessionId});
 	client.publish('hermes/tts/say', payload);
-	//client.publish('hermes/tts/sayFinished');
+	client.publish('hermes/tts/sayFinished');
 
 	// Open Channel , find bankroller and send open TX with deposit
 	console.log(`
@@ -168,27 +168,35 @@ async function diceStart(parsedMessage) {
 	let userDeposit = 10
 	await Dapp.startGame(userDeposit)
 
+	// await sleep();
+
 
 
 	var text = "The game is ready, tell your number";
-	console.log(text);
-	var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"], 'sessionId': parsedMessage.sessionId});
-	client.publish('hermes/dialogueManager/continueSession', payload);
+	// console.log(text);
+	// var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"], 'sessionId': parsedMessage.sessionId});
+	// client.publish('hermes/dialogueManager/continueSession', payload);
+	// 	var text = "Hello I am Snips, do you have a minute to talk about dao casino?";
+		var payload = JSON.stringify({'siteId': 'default',
+			'init' : {'text': text, 'type': 'action', 'canBeEnqueued': true
+		,"intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"]
+	} });
+		client.publish('hermes/dialogueManager/startSession', payload);
 }
 
 async function dicePlay(parsedMessage) {
+	var answer = parseInt(parsedMessage.slots[0].value.value);
 	console.log(`
 
 	-------------------------------
 	  Start PLAY  (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
 	-------------------------------
 
-	`)
-	var answer = parseInt(parsedMessage.slots[0].value.value);
+	`, answer)
 	const res = await Dapp.play(userBet, answer)
 	console.log('Play', res); console.log('\n\n\n')
 
-	var text = "dice play, your number is "+answer+", winning number is ";
+	var text = "dice play, your number is "+answer+", winning number is "+res.randomNums[0];
 	var payload = JSON.stringify({"text": text, "intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"], 'sessionId': parsedMessage.sessionId});
 	client.publish('hermes/dialogueManager/continueSession', payload);
 }
@@ -204,8 +212,9 @@ async function diceEnd(parsedMessage) {
 	const end = await Dapp.endGame(userBet * 0.5, 3)
 	console.log('end game result:', end)
 
+
 	dice = false;
-	var text = "Finishing the game";
+	var text = "Finishing the game, resultBalances: bankroller: "+end.resultBalances.bankroller+". player: "+end.resultBalances.player;
 	var payload = JSON.stringify({'text': text, 'siteId': 'default', 'sessionId': parsedMessage.sessionId});
 	client.publish('hermes/tts/say', payload);
 	client.publish('hermes/tts/sayFinished');
@@ -223,6 +232,14 @@ client.on('connect', function () {
 	client.subscribe('hermes/intent/quizbox:Number');
 	client.subscribe('hermes/intent/quizbox:Ordinal');
 	client.subscribe('hermes/intent/quizbox:Letter');
+
+
+// 	var text = "Hello I am Snips, do you have a minute to talk about dao casino?";
+// 	var payload = JSON.stringify({'siteId': 'default',
+// 		'init' : {'text': text, 'type': 'action', 'canBeEnqueued': true
+// 	,"intentFilter": ["quizbox:Number", "quizbox:Ordinal", "quizbox:EndDice"]
+// } });
+// 	client.publish('hermes/dialogueManager/startSession', payload);
 });
 
 client.on('message', function (topic, message) {
@@ -272,3 +289,11 @@ const init = async function () {
 }
 
 init().then((result) => {console.log(result);});
+
+function sleep() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+  }, 10000);
+  });
+}
