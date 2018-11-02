@@ -2,6 +2,8 @@ QUIZBOX
 ______
 A voice controlled quiz game. Players answer questions to compete for real money.
 
+You can find the presentation [here](https://docs.google.com/presentation/d/1qOxNKU2f9C3Jmqte-MVI15MjGp_NuqMTce3_kOgwVRA/edit)
+
 QUICKSTART
 _________
 
